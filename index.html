@@ -59,9 +59,11 @@
   .rcard h2{font-size:24px;margin:6px 0 8px;color:var(--c)}
   .rcard .desc{font-size:14px;color:var(--text);line-height:1.6}
   .jobs{margin-top:16px;display:flex;flex-direction:column;gap:8px}
-  .job{display:flex;align-items:center;gap:10px;background:var(--card2);border-radius:12px;padding:11px 12px;font-size:14px;font-weight:600}
+  .job{display:flex;align-items:flex-start;gap:10px;background:var(--card2);border-radius:12px;padding:11px 12px;font-size:14px;font-weight:600}
+  .job .t{display:flex;flex-direction:column;gap:3px}
+  .job .d{font-size:12px;font-weight:400;color:var(--muted);line-height:1.4;word-break:keep-all}
   .job .n{width:22px;height:22px;border-radius:50%;background:var(--c);color:#06101f;font-size:12px;
-    display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
   .dist{margin-top:18px}
   .dist h3{font-size:14px;color:var(--muted);margin-bottom:10px;font-weight:600}
   .row{display:grid;grid-template-columns:96px 1fr 40px;align-items:center;gap:8px;margin-bottom:8px;font-size:12px}
@@ -127,16 +129,16 @@
 const TYPES = {
   A:{name:"모델 연구자형", color:"var(--A)",
      desc:"'왜 되는지'가 궁금한 사람. 수식과 논문을 파고들어 더 나은 모델을 만드는 데서 재미를 느껴요.",
-     jobs:["AI 연구원(리서치 사이언티스트)","머신러닝 알고리즘 엔지니어","대학원 연구자 · AI 교수"]},
+     jobs:[["AI 연구원(리서치 사이언티스트)","새 모델·학습 방법을 실험하고 논문으로 발표"],["머신러닝 알고리즘 엔지니어","모델 구조와 학습 과정을 설계·개선"],["대학원 연구자 · AI 교수","연구와 교육으로 다음 세대 AI를 만듦"]]},
   B:{name:"데이터 탐정형", color:"var(--B)",
      desc:"숫자 뒤에 숨은 이야기를 찾아내는 사람. 데이터를 정리하고 시각화해 '그래서 뭘 해야 하지?'에 답해요.",
-     jobs:["데이터 사이언티스트","데이터 분석가(Data Analyst)","BI · 마케팅 데이터 전문가"]},
+     jobs:[["데이터 사이언티스트","데이터로 예측 모델을 만들고 의사결정을 도움"],["데이터 분석가(Data Analyst)","데이터를 정리·시각화해 보고서와 인사이트 제공"],["BI · 마케팅 데이터 전문가","매출·고객 데이터를 분석해 전략을 제안"]]},
   C:{name:"서비스 메이커형", color:"var(--C)",
      desc:"일단 만들어서 세상에 내놓는 사람. 모델을 앱과 서비스로 연결하고 배포하는 걸 즐겨요.",
-     jobs:["AI 서비스 개발자(AI 엔지니어)","MLOps 엔지니어","AI 스타트업 창업자"]},
+     jobs:[["AI 서비스 개발자(AI 엔지니어)","AI 모델을 앱·웹 서비스에 연결해 제품으로 완성"],["MLOps 엔지니어","모델이 실제 서버에서 안정적으로 돌아가게 운영"],["AI 스타트업 창업자","AI 아이디어를 직접 사업과 제품으로 실현"]]},
   D:{name:"AI 기획·소통형", color:"var(--D)",
      desc:"기술과 사람 사이를 잇는 사람. 어떤 문제를 AI로 풀지 정하고, 팀과 사용자를 설득해요.",
-     jobs:["AI 프로덕트 매니저(PM)","AI 윤리 · 정책 전문가","프롬프트 엔지니어 · AI 컨설턴트"]}
+     jobs:[["AI 프로덕트 매니저(PM)","어떤 AI 제품을 만들지 정하고 팀을 이끎"],["AI 윤리 · 정책 전문가","AI가 안전하고 공정하게 쓰이도록 기준을 만듦"],["프롬프트 엔지니어 · AI 컨설턴트","AI를 잘 쓰는 방법을 설계하고 기업에 조언"]]}
 };
 const QUESTIONS = [
  {q:"팀 프로젝트 주제로 '교내 분실물 찾기 AI'가 정해졌다. 내가 먼저 하고 싶은 일은?",
@@ -237,7 +239,7 @@ function showResult(){
   document.getElementById("rdesc").textContent=T.desc;
   document.getElementById("rjobs").innerHTML=
     `<div class="label" style="font-size:12px;color:var(--muted)">어울리는 직업 3개</div>`+
-    T.jobs.map((j,i)=>`<div class="job"><span class="n">${i+1}</span>${j}</div>`).join("");
+    T.jobs.map(([j,d],i)=>`<div class="job"><span class="n">${i+1}</span><span class="t"><span>${j}</span><span class="d">${d}</span></span></div>`).join("");
   const total=QUESTIONS.length;
   document.getElementById("dist").innerHTML=["A","B","C","D"].map(k=>{
     const p=Math.round(scores[k]/total*100);
